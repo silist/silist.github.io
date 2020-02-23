@@ -20,27 +20,34 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="silist的摸鱼之处">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="剑指offer中的题。 题目描述请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。 解法思路使用久而不用的C++写了这一题。忘了很多东西，实现时参考了别人的代码…注意stack的push是从栈顶压入新元素，pop是从栈顶弹出新元素。LIFO。一层一层处理。设置两个栈，root节点放入奇数栈。奇数栈子节点弹">
+<meta property="og:type" content="article">
+<meta property="og:title" content="按之字形打印二叉树">
+<meta property="og:url" content="http://yoursite.com/2020/02/22/problems/print-binary-tree-in-order-z/index.html">
 <meta property="og:site_name" content="silist的摸鱼之处">
+<meta property="og:description" content="剑指offer中的题。 题目描述请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。 解法思路使用久而不用的C++写了这一题。忘了很多东西，实现时参考了别人的代码…注意stack的push是从栈顶压入新元素，pop是从栈顶弹出新元素。LIFO。一层一层处理。设置两个栈，root节点放入奇数栈。奇数栈子节点弹">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-22T13:51:04.000Z">
+<meta property="article:modified_time" content="2020-02-22T13:55:07.481Z">
 <meta property="article:author" content="silist">
+<meta property="article:tag" content="剑指offer">
+<meta property="article:tag" content="二叉树">
+<meta property="article:tag" content="c++">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/02/22/problems/print-binary-tree-in-order-z/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false
+    isHome: false,
+    isPost: true
   };
 </script>
 
-  <title>silist的摸鱼之处</title>
+  <title>按之字形打印二叉树 | silist的摸鱼之处</title>
   
 
 
@@ -137,90 +144,10 @@
             
 
   <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/23/others/fix-lbp2900/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="silist">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="silist的摸鱼之处">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/23/others/fix-lbp2900/" class="post-title-link" itemprop="url">佳能LBP2900打印机不断卡纸修理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-23 13:30:33 / 修改时间：13:43:35" itemprop="dateCreated datePublished" datetime="2020-02-23T13:30:33+08:00">2020-02-23</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%98%E8%85%BE/" itemprop="url" rel="index">
-                    <span itemprop="name">折腾</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
       
-          <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>家里超期服役的佳能LBP2900打印机终于不堪重负的坏掉了。</p>
-<h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>主要症状为：一次性打印超过一页的文件，在第二张纸打印时必然会停止然后报卡纸。<br>观察发现打印机在取纸过程中不停取纸，直至卡纸。区别于正常打印时打印完一张纸才去取第二张纸。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="查找方案"><a href="#查找方案" class="headerlink" title="查找方案"></a>查找方案</h2><p>由于打印过程十分复杂，涉及众多传感器联合工作，任何一个部分出问题都可能导致卡纸，一时间没有思路。<br>碰运气去搜索”LBP2900 不停取纸”时发现了这篇文章：<br>(佳能LBP2900打印机连续进纸和卡纸完美解决方法)[<a href="https://jingyan.baidu.com/article/546ae1852833841148f28c43.html]" target="_blank" rel="noopener">https://jingyan.baidu.com/article/546ae1852833841148f28c43.html]</a><br>症状和我家的打印机完全一致。文中解释为继电器降噪海绵退化导致粘连。</p>
-<h2 id="动手拆机"><a href="#动手拆机" class="headerlink" title="动手拆机"></a>动手拆机</h2><p>这篇文章的拆机过程比较简单，实际参考了;<br>(LBP2900拆机过程)[<a href="https://wenku.baidu.com/view/b3f8a9257375a417866f8fd3.html]" target="_blank" rel="noopener">https://wenku.baidu.com/view/b3f8a9257375a417866f8fd3.html]</a><br>过程大概是:</p>
-<ol>
-<li>打开侧板卡扣，用平口螺丝刀翘一圈取下侧板。</li>
-<li>取下背板螺丝并取下背板。过程中需要大力出奇迹。</li>
-<li>取下继电器螺丝并取出继电器。</li>
-<li>取下继电器弹簧，清理海绵部分。我先用湿巾擦拭后用橡皮仔细擦掉剩余部分。</li>
-<li>复原打印机。<h2 id="修理结果"><a href="#修理结果" class="headerlink" title="修理结果"></a>修理结果</h2>经过以上死马当作活马医的步骤后，打印机重新工作后不再卡纸。看来这一问题可能是该型号打印机的通病。<br>另外硒鼓也出了点问题导致打印中间部分区域不清晰，回头考虑换个硒鼓。</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
   
   
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/problems/print-binary-tree-in-order-z/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -234,8 +161,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/22/problems/print-binary-tree-in-order-z/" class="post-title-link" itemprop="url">按之字形打印二叉树</a>
+          按之字形打印二叉树
         </h1>
 
         <div class="post-meta">
@@ -271,178 +197,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>剑指offer中的题。</p>
+        <p>剑指offer中的题。</p>
 <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>请实现一个函数按照之字形打印二叉树，即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。</p>
 <h1 id="解法思路"><a href="#解法思路" class="headerlink" title="解法思路"></a>解法思路</h1><p>使用久而不用的C++写了这一题。忘了很多东西，实现时参考了别人的代码…<br>注意stack的push是从栈顶压入新元素，pop是从栈顶弹出新元素。LIFO。<br>一层一层处理。<br>设置两个栈，root节点放入奇数栈。<br>奇数栈子节点弹出到偶数栈中，加新节点先加左子节点再加右子节点；<br>偶数栈子节点弹出到奇数栈中，加新节点先加右子节点再加左子节点。</p>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> val;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">left</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">right</span>;</span></span><br><span class="line">    TreeNode(<span class="keyword">int</span> x) :</span><br><span class="line">            val(x), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; <span class="title">Print</span><span class="params">(TreeNode* pRoot)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;TreeNode*&gt; odd_stack; <span class="comment">// 奇数层栈</span></span><br><span class="line">        <span class="built_in">stack</span>&lt;TreeNode*&gt; even_stack; <span class="comment">// 偶数层栈</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; res;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; row;</span><br><span class="line">        <span class="keyword">bool</span> odd = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 先将根节点压入奇数栈</span></span><br><span class="line">        <span class="keyword">if</span> (pRoot != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            odd_stack.push(pRoot);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (!odd_stack.empty() || !even_stack.empty()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (odd) &#123;</span><br><span class="line">                <span class="keyword">while</span> (!odd_stack.empty()) &#123;</span><br><span class="line">                    TreeNode* tmp_node = odd_stack.top();</span><br><span class="line">                    odd_stack.pop();</span><br><span class="line">                    <span class="keyword">if</span> (tmp_node-&gt;left) even_stack.push(tmp_node-&gt;left);</span><br><span class="line">                    <span class="keyword">if</span> (tmp_node-&gt;right) even_stack.push(tmp_node-&gt;right);</span><br><span class="line">                    row.push_back(tmp_node-&gt;val);</span><br><span class="line">                &#125;</span><br><span class="line">                res.push_back(row);</span><br><span class="line">                row.<span class="built_in">clear</span>();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (!even_stack.empty()) &#123;</span><br><span class="line">                    TreeNode* tmp_node = even_stack.top();</span><br><span class="line">                    even_stack.pop();</span><br><span class="line">                    <span class="keyword">if</span> (tmp_node-&gt;right) odd_stack.push(tmp_node-&gt;right);</span><br><span class="line">                    <span class="keyword">if</span> (tmp_node-&gt;left) odd_stack.push(tmp_node-&gt;left);</span><br><span class="line">                    row.push_back(tmp_node-&gt;val);</span><br><span class="line">                &#125;</span><br><span class="line">                res.push_back(row);</span><br><span class="line">                row.<span class="built_in">clear</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            odd = ! odd;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/%E5%89%91%E6%8C%87offer/" rel="tag"># 剑指offer</a>
+              <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag"># 二叉树</a>
+              <a href="/tags/c/" rel="tag"># c++</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/others/deploy-my-blog-using-alicloud-ecs/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="silist">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="silist的摸鱼之处">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/22/others/deploy-my-blog-using-alicloud-ecs/" class="post-title-link" itemprop="url">在阿里云ECS上搭建blog</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-22 21:23:52 / 修改时间：21:47:23" itemprop="dateCreated datePublished" datetime="2020-02-22T21:23:52+08:00">2020-02-22</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%98%E8%85%BE/" itemprop="url" rel="index">
-                    <span itemprop="name">折腾</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>由于最近疫情大家都放假在家，阿里云搞了一个活动送一年ECS，配置2C4G1M。总体来说比之前腾讯云的学生机配置高了一档。申请之后为了让其发挥价值，决定搭一个blog。</p>
-<h1 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h1><p>首先到v2ex上搜了一下，发现推荐比较多的是Hexo。相比较Wordpress，Hexo更轻量，需要资源更少，适合低配ECS环境。</p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>ECS： Ubuntu 18.04 x64</p>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>步骤非常简单，配置git和nodejs环境后，只需按照官网说明键入指令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init blog</span><br><span class="line">cd blog</span><br><span class="line">npm install</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-<h2 id="配置安全组"><a href="#配置安全组" class="headerlink" title="配置安全组"></a>配置安全组</h2><p>Hexo默认占用4000端口，因此需要在ECS的安全组上放行4000端口。</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><p>默认主题比较捉急，使用了比较高的主题NeXT:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd blog</span><br><span class="line">git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-<p>之后在<code>_config.yml</code>文件中修改<code>theme</code>配置即可。<br>NeXT本身提供了四种主题，比较之后选择了双栏主题<code>Pisces</code>。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/others/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="silist">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="silist的摸鱼之处">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/02/22/others/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-02-22 21:21:56 / 修改时间：19:02:23" itemprop="dateCreated datePublished" datetime="2020-02-22T21:21:56+08:00">2020-02-22</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/22/others/deploy-my-blog-using-alicloud-ecs/" rel="prev" title="在阿里云ECS上搭建blog">
+      <i class="fa fa-chevron-left"></i> 在阿里云ECS上搭建blog
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/23/others/fix-lbp2900/" rel="next" title="佳能LBP2900打印机不断卡纸修理">
+      佳能LBP2900打印机不断卡纸修理 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -493,6 +287,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解法思路"><span class="nav-number">2.</span> <span class="nav-text">解法思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
