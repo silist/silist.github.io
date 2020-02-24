@@ -141,6 +141,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/24/others/others-visit-internal-server-using-frp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="silist">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="silist的摸鱼之处">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/02/24/others/others-visit-internal-server-using-frp/" class="post-title-link" itemprop="url">通过frp实现外网访问内网服务器</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-24 10:25:58 / 修改时间：13:52:16" itemprop="dateCreated datePublished" datetime="2020-02-24T10:25:58+08:00">2020-02-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%98%E8%85%BE/" itemprop="url" rel="index">
+                    <span itemprop="name">折腾</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>疫情在家，实验还是要做的。然而家里并没有可以用的服务器，实验室的服务器又在学校的内网里。为解决这一窘境，这里使用frp简单搭建实现内网穿透。</p>
+<h1 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h1><p>frp是目前非常常用的内网穿透工具了，特点是轻量简洁易于部署，官方支持的平台也很全面。我之前在路由器上也布置过，不过随着云服务器的过期也就无疾而终了…这次有了新的ecs，正好拿来搭一下frp。</p>
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>ubuntu 18.04 x64</p>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>由于frp需要在内网机器上运行client端，所以首先需要某种手段让内网的机器跑起来这个程序。我们实验室有自己的vpn可以解决这个问题（因为是全局vpn限速很不舒服这才另外部署一下frp），没有的话可能得麻烦一下还在学校的同学老师了。</p>
+<h2 id="下载程序"><a href="#下载程序" class="headerlink" title="下载程序"></a>下载程序</h2><p>frp项目页面：<a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">github地址</a><br>在frp的github release上寻找符合自己系统版本的编译完成文件。<br>例如我所需要的就是：<a href="https://github.com/fatedier/frp/releases/download/v0.31.2/frp_0.31.2_linux_amd64.tar.gz" target="_blank" rel="noopener">frp_0.31.2_linux_amd64.tar.gz</a>。注意需要分别在客户端和服务器端下载并解压。</p>
+<h2 id="修改服务器端配置文件"><a href="#修改服务器端配置文件" class="headerlink" title="修改服务器端配置文件"></a>修改服务器端配置文件</h2><p>服务器端的配置文件为<code>frps.ini</code>，这里我修改了绑定地址，token，添加了管理页面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># frps.ini</span><br><span class="line">[common]</span><br><span class="line">bind_port &#x3D; 2333</span><br><span class="line">token &#x3D; 口令</span><br><span class="line">dashboard_user &#x3D; silist</span><br><span class="line">dashboard_pwd &#x3D; admin</span><br></pre></td></tr></table></figure>
+<p>修改完后在screen里开一个session运行<code>frps</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen -S frp</span><br><span class="line">./frps -c frps.ini</span><br></pre></td></tr></table></figure>
+
+<h2 id="ECS安全组放行端口"><a href="#ECS安全组放行端口" class="headerlink" title="ECS安全组放行端口"></a>ECS安全组放行端口</h2><p>需要放行上述绑定端口2333，以及供frp客户端连接的其他端口。</p>
+<h2 id="修改客户端配置文件"><a href="#修改客户端配置文件" class="headerlink" title="修改客户端配置文件"></a>修改客户端配置文件</h2><p>服务器端的配置文件为<code>frpc.ini</code>，这里同样进行了修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr &#x3D; 云服务器ip</span><br><span class="line">server_port &#x3D; 2333</span><br><span class="line">token &#x3D; 口令</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type &#x3D; tcp</span><br><span class="line">local_ip &#x3D; 客户端内网ip</span><br><span class="line">local_port &#x3D; 22</span><br><span class="line">remote_port &#x3D; 23</span><br><span class="line"></span><br><span class="line">[jupyter]</span><br><span class="line">type &#x3D; tcp</span><br><span class="line">local_ip &#x3D; 客户端内网ip</span><br><span class="line">local_port &#x3D; 8080</span><br><span class="line">remote_port &#x3D; 8080</span><br></pre></td></tr></table></figure>
+<p>修改完后在screen里开一个session运行<code>frpc</code>文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">screen -S frp</span><br><span class="line">./frpc -c frpc.ini</span><br></pre></td></tr></table></figure>
+<p>如果显示如下，则客户端frp启动成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2020&#x2F;02&#x2F;24 13:45:09 [I] [service.go:224] login to server success, get run id [0db2c22df776a39b], server udp port [0]</span><br><span class="line">2020&#x2F;02&#x2F;24 13:45:09 [I] [proxy_manager.go:137] [0db2c22df776a39b] proxy added: [jupyter-lab1 ssh-lab1]  2020&#x2F;02&#x2F;24 13:45:09 [I] [control.go:144] [jupyter-lab1] start proxy success</span><br><span class="line">2020&#x2F;02&#x2F;24 13:45:09 [I] [control.go:144] [ssh-lab1] start proxy success</span><br></pre></td></tr></table></figure>
+<p>之后即可通过：<br><code>ssh 云服务器地址:客户端指定的ssh端口</code><br>访问内网的服务器。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/23/others/fix-lbp2900/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -155,7 +242,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/23/others/fix-lbp2900/" class="post-title-link" itemprop="url">佳能LBP2900打印机不断卡纸修理</a>
+            <a href="/2020/02/23/others/fix-lbp2900/" class="post-title-link" itemprop="url">佳能LBP2900打印机频繁卡纸维修</a>
         </h1>
 
         <div class="post-meta">
@@ -164,10 +251,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-23 13:30:33 / 修改时间：13:49:16" itemprop="dateCreated datePublished" datetime="2020-02-23T13:30:33+08:00">2020-02-23</time>
+              <time title="创建时间：2020-02-23 13:30:33" itemprop="dateCreated datePublished" datetime="2020-02-23T13:30:33+08:00">2020-02-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-24 10:43:30" itemprop="dateModified" datetime="2020-02-24T10:43:30+08:00">2020-02-24</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -193,8 +286,7 @@
       
           <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>家里超期服役的佳能LBP2900打印机终于不堪重负的坏掉了。</p>
 <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>主要症状为：一次性打印超过一页的文件，在第二张纸打印时必然会停止然后报卡纸。<br>观察发现打印机在取纸过程中不停取纸，直至卡纸。区别于正常打印时打印完一张纸才去取第二张纸。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="查找方案"><a href="#查找方案" class="headerlink" title="查找方案"></a>查找方案</h2><p>由于打印过程十分复杂，涉及众多传感器联合工作，任何一个部分出问题都可能导致卡纸，一时间没有思路。<br>碰运气去搜索”LBP2900 不停取纸”时发现了这篇文章：<br><a href="https://jingyan.baidu.com/article/546ae1852833841148f28c43.html" target="_blank" rel="noopener">佳能LBP2900打印机连续进纸和卡纸完美解决方法</a></p>
-<p>症状和我家的打印机完全一致。文中解释为继电器降噪海绵退化导致粘连。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="查找方案"><a href="#查找方案" class="headerlink" title="查找方案"></a>查找方案</h2><p>由于打印过程较为复杂，涉及众多传感器联合工作，任何一个部分出问题都可能导致卡纸，一时间没有思路。<br>碰运气去搜索”LBP2900 不停取纸”时发现了这篇文章：<br><a href="https://jingyan.baidu.com/article/546ae1852833841148f28c43.html" target="_blank" rel="noopener">佳能LBP2900打印机连续进纸和卡纸完美解决方法</a><br>症状和我家的打印机完全一致。文中解释为继电器降噪海绵退化导致粘连。</p>
 <h2 id="动手拆机"><a href="#动手拆机" class="headerlink" title="动手拆机"></a>动手拆机</h2><p>由于上面这篇文章的拆机过程比较简单，实际参考了;<br><a href="https://wenku.baidu.com/view/b3f8a9257375a417866f8fd3.html" target="_blank" rel="noopener">LBP2900拆机过程</a><br>目前图床还没搞好就没上图了<del>其实我也没拍过程图</del>。过程大概是:</p>
 <ol>
 <li>打开侧板卡扣，用平口螺丝刀翘一圈取下侧板。</li>
@@ -296,7 +388,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/others/deploy-my-blog-using-alicloud-ecs/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/others/deploy-my-blog-using-aliyun-ecs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -310,7 +402,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/02/22/others/deploy-my-blog-using-alicloud-ecs/" class="post-title-link" itemprop="url">在阿里云ECS上搭建blog</a>
+            <a href="/2020/02/22/others/deploy-my-blog-using-aliyun-ecs/" class="post-title-link" itemprop="url">在阿里云ECS上搭建blog</a>
         </h1>
 
         <div class="post-meta">
@@ -327,7 +419,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-23 13:46:03" itemprop="dateModified" datetime="2020-02-23T13:46:03+08:00">2020-02-23</time>
+                <time title="修改时间：2020-02-24 10:42:26" itemprop="dateModified" datetime="2020-02-24T10:42:26+08:00">2020-02-24</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -514,7 +606,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -525,7 +617,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
